@@ -1,0 +1,23 @@
+{
+  "name": "reason-express-heroku",
+  "success_url": "/",
+  "env": {
+    "NODE_ENV": "production",
+    "HEROKU_APP_NAME": {
+      "required": false,
+      "description": "Only for automated deploys, please don't enter anything!"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev"
+    },
+    {
+      "plan": "sendgrid:starter"
+    },
+    {
+      "plan": "logdna:quaco"
+    }
+  ],
+  "buildpacks": [{ "url": "heroku/nodejs" }]
+}

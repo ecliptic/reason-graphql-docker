@@ -1,0 +1,110 @@
+{
+  "name": "reason-express-heroku",
+  "version": "0.1.0",
+  "description": "A demo deployment of ReasonML and Express on Heroku",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bkonkle/reason-express-heroku.git"
+  },
+  "author": "Brandon Konkle <brandon@ecliptic.io> (http://ecliptic.io)",
+  "license": "UNLICENSED",
+  "keywords": ["reasonml"],
+  "scripts": {
+    "test": "cross-env NODE_ENV=test jest",
+    "test.inspect":
+      "cross-env NODE_ENV=test node --inspect-brk node_modules/.bin/jest --runInBand",
+    "test.watch": "cross-env NODE_ENV=test jest --watch",
+    "precommit": "lint-staged",
+    "prepush": "yarn build && yarn test",
+    "heroku-postbuild": "yarn build",
+    "format": "prettier-eslint --write \"packages/*/src/**/*.js\"",
+    "format.re": "refmt --in-place src/**/*.re",
+    "dev": "NODE_ENV=development dotenv node ./src/Server.js",
+    "dev.inspect": "yarn dev --inspect",
+    "dev.watch": "chokidar --initial \"src/**/*.js\" -c \"yarn dev\"",
+    "start": "node ./src/Server.js",
+    "lint": "eslint --ext .js,.jsx ./",
+    "build": "bsb -make-world",
+    "build.watch": "yarn build -w",
+    "build.clean": "bsb -clean-world",
+    "migrate": "dotenv knex migrate:latest"
+  },
+  "dependencies": {
+    "apollo-server-express": "^1.2.0",
+    "body-parser": "^1.18.2",
+    "bs-apollo-server-express": "^0.3.1",
+    "bs-batteries": "^0.0.14",
+    "bs-express": "^0.0.5",
+    "bs-graphql": "^0.3.1",
+    "bs-graphql-tools": "^0.3.1",
+    "bs-json": "^0.2.4",
+    "chalk": "^2.3.0",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "express-promise-router": "^2.0.0",
+    "graphql": "^0.11.7",
+    "graphql-tag": "^2.5.0",
+    "graphql-tools": "^2.11.0",
+    "knex": "^0.14.2",
+    "morgan": "^1.9.0",
+    "parse-database-url": "^0.3.0",
+    "pg": "^7.4.0"
+  },
+  "devDependencies": {
+    "@playlyfe/gql": "^2.3.2",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-jest": "^21.2.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "bs-jest": "^0.2.0",
+    "bs-platform": "2.0.0",
+    "chokidar-cli": "^1.2.0",
+    "concurrently": "^3.5.0",
+    "cross-env": "^5.1.1",
+    "eslint": "^4.10.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-config-standard-react": "^5.0.0",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "husky": "^0.14.3",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^21.2.1",
+    "jest-transform-graphql": "^2.1.0",
+    "lint-staged": "^4.3.0",
+    "mock-knex": "^0.4.0",
+    "prettier-eslint-cli": "^4.4.0"
+  },
+  "jest": {
+    "moduleFileExtensions": ["re", "js", "ml"],
+    "testURL": "http://localhost",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$":
+        "identity-obj-proxy"
+    },
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom"
+    ],
+    "transform": {
+      "\\.(gql|graphql)$": "jest-transform-graphql",
+      ".*": "babel-jest"
+    }
+  },
+  "lint-staged": {
+    "*.js": ["format", "git add"],
+    "*.re": ["format.re", "git add"]
+  },
+  "engines": {
+    "node": "8.x.x",
+    "yarn": "1.x.x"
+  }
+}

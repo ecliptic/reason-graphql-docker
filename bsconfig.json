@@ -1,0 +1,25 @@
+{
+  "name": "reason-express-heroku",
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "bs-dependencies": [
+    "bs-json",
+    "bs-graphql",
+    "bs-graphql-tools",
+    "bs-express",
+    "bs-apollo-server-express",
+    "bs-jest",
+    "bs-batteries"
+  ],
+  "reason": {
+    "react-jsx": 2
+  },
+  "bsc-flags": ["-bs-super-errors"],
+  "namespace": true,
+  "refmt": 3,
+  "package-specs": [{ "module": "commonjs", "in-source": true }]
+}
