@@ -16,7 +16,6 @@
     "test.watch": "cross-env NODE_ENV=test jest --watch",
     "precommit": "lint-staged",
     "prepush": "yarn build && yarn test",
-    /* "heroku-postbuild": "npm i -g bs-platform && bsb -make-world", */
     "heroku-postbuild": "which bsb && ls `which bsb` && yarn build",
     "format": "prettier-eslint --write \"packages/*/src/**/*.js\"",
     "format.re": "refmt --in-place src/**/*.re",
