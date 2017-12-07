@@ -4,6 +4,8 @@ This is an Express-based application server written in [ReasonML](https://reason
 
 ## Installation
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ### Dependencies
 
 Install dependencies with [Yarn](http://yarnpkg.com):
