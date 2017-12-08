@@ -1,32 +1,30 @@
-FROM ocaml/opam:debian
+FROM node:8
 
-USER root
+WORKDIR /
+
+ADD https://github.com/Yelp/dumb-init/releases/download/v1.1.1/dumb-init_1.1.1_amd64 /usr/local/bin/dumb-init
+
+RUN addgroup --system app \
+  && adduser --system --group app \
+  \
+  # make dumb-init executable
+  && chmod +x /usr/local/bin/dumb-init \
+  \
+  # Permissions
+  && mkdir -p /usr/src/app \
+  && chown -R app:root /usr/src/app \
+  && chmod -R 0770 /usr/src/app;
+
+USER app
+
+WORKDIR /usr/src/app
 
 ENV NODE_ENV=production
 
-# Install OCaml toolchain
-RUN opam update && \
-  opam switch 4.02.3+buckle-master && \
-  echo "eval `opam config env`" > /etc/profile.d/opam.sh && \
-  rm -rf /home/opam/opam-repository
-
-# Install Nodejs toolchain
-RUN (curl -sL https://deb.nodesource.com/setup_8.x | bash -) && \
-  apt-get install -y nodejs yarn --no-install-recommends && \
-  apt-get clean && \
-  rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
-
-RUN npm install -g bs-platform
-
-# Create app directory
-WORKDIR /usr/src/app
-
-# Install app dependencies
-COPY package.json ./
-COPY yarn.lock ./
-RUN yarn
-
-# Bundle app source
+COPY package.json .
+COPY yarn.lock .
+RUN yarn --prod
 COPY . .
+RUN yarn build
 
-CMD [ "yarn", "start" ]
+CMD [ "dumb-init", "yarn", "start" ]
