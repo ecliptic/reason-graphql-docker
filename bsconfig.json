@@ -19,7 +19,5 @@
     "react-jsx": 2
   },
   "bsc-flags": ["-bs-super-errors"],
-  "namespace": true,
-  "refmt": 3,
-  "package-specs": [{ "module": "commonjs", "in-source": true }]
+  "refmt": 3
 }
