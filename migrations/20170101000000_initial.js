@@ -16,8 +16,7 @@ exports.up = function (knex, Promise) {
           table.timestamps()
 
           // fields
-          table.string('name').notNullable()
-          table.float('donation_goal')
+          table.string('size').notNullable()
         })
       )
   )

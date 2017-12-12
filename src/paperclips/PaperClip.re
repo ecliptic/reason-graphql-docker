@@ -8,7 +8,8 @@ module Size = {
     | "SMALL" => Small
     | "MEDIUM" => Medium
     | "LARGE" => Large
-    | _ => Small /* Default to Small */
+    /* Default to Small, which shouldn't happen if GraphQL schema validation is working */
+    | _ => Small
     };
   let toString = (size: t) =>
     switch size {

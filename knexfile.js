@@ -2,7 +2,7 @@ const parseDbUrl = require('parse-database-url')
 
 const dbUrl =
   process.env.DATABASE_URL ||
-  'postgres://postgres@localhost:5432/reason_graphql_docker'
+  'postgres://reason_graphql_docker@localhost:5432/reason_graphql_docker'
 
 const dbConfig = parseDbUrl(dbUrl)
 

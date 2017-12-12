@@ -16,7 +16,11 @@ module Server = {
 };
 
 module Database = {
-  let url = getEnvVar("DATABASE_URL", "postgres://trailmap:trailmap@localhost:5432/trailmap");
+  let url =
+    getEnvVar(
+      "DATABASE_URL",
+      "postgres://reason_graphql_docker@localhost:5432/reason_graphql_docker"
+    );
   let config = DbUtils.parseDbUrl(url);
   let name = config##database;
   let username = config##user;

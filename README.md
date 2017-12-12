@@ -4,7 +4,7 @@ This is an Express-based application server written in [ReasonML](https://reason
 
 ## Installation
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+Easy deploy to Heroku: [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ### Dependencies
 
@@ -13,6 +13,28 @@ Install dependencies with [Yarn](http://yarnpkg.com):
     $ yarn
 
 This should install the ReasonML and BuckleScript platform to compile the code to JavaScript.
+
+### Database Setup
+
+Create a local `.env` file (required by `dotenv-cli`):
+
+    $ touch .env
+
+Set up a local database:
+
+    $ createuser reason_graphql_docker
+
+    $ createdb reason_graphql_docker -O reason_graphql_docker
+
+    $ psql -U postgres -d reason_graphql_docker -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+
+If you get an error about the "postgres" role not existing, you'll want to create it as a superuser:
+
+    $ createuser -s postgres
+
+Then, you can run the Knex migrations:
+
+    $ yarn migrate
 
 ## Running the Application
 
@@ -24,6 +46,14 @@ Then run the server in development mode:
 
     $ yarn dev
 
+Inspect the GraphQL schema with the dev-only GraphiQL endpoint: http://localhost:4000/graphiql
+
 ## Deployment
 
-Compiled intermediate code goes in the `lib` folder, which is ignored by git. Resulting JavaScript is output inline in the source tree. The `yarn build` command is called by the Dockerfile to build the application.
+Compiled intermediate code goes in the `lib/bs` and `lib/ocaml` folders, which are ignored by git. Resulting JavaScript is output in `lib/js`.
+
+There is currently an issue running `bsb` in Docker and similar environments, with a [ticket](https://github.com/BuckleScript/bucklescript/issues/2336) open in the repository to investigate. In the meantime, the build needs to be run locally and pushed to your target container registry manually.
+
+The drawback to this is that the application cannot easily be built remotely from the git tree alone. Features like continuous integration or Heroku review apps are more challenging to implement until the issue is resolved.
+
+The `heroku.yml` file allows the container to easily be built and deployed on Heroku's container stack.
