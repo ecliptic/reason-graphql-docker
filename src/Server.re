@@ -1,5 +1,7 @@
 open Express.App;
 
+open Js.Promise;
+
 [@bs.module] external cors : 'a => Express.Middleware.t = "";
 
 [@bs.module] external morgan : string => Express.Middleware.t = "";
@@ -31,7 +33,7 @@ let onListen = (exn) => {
 /**
  * The start routine for the application server
  */
-let start = () => {
+let start = (~graphRouter) => {
   let app = Express.App.make();
   /* Determine the log style based on the environment */
   Config.Server.isDev ? use(app, morgan("dev")) : use(app, morgan("combined"));
@@ -40,6 +42,10 @@ let start = () => {
    */
   use(app, cors({"exposedHeaders": Config.Server.corsHeaders}));
   use(app, json({"limit": Config.Server.bodyLimit}));
+  useOnPath(app, graphRouter, ~path="/graphql");
+  if (Config.Server.isDev) {
+    useOnPath(app, graphiqlMiddleware, ~path="/graphiql")
+  };
   /*
    * Request routing
    */
@@ -53,7 +59,29 @@ let start = () => {
 /**
  * The main application init routine
  */
-let main = () => start();
+let main = () =>
+  DataProvider.make()
+  |> then_(
+       (dataProvider) => {
+         let graphRouter = Router.GraphQL.make(dataProvider);
+         start(~graphRouter);
+         resolve()
+       }
+     )
+  |> catch(
+       (error) => {
+         Js.log(
+           TextUtils.red(
+             Js.Option.getWithDefault(
+               "(no message)",
+               Js.Nullable.to_opt(ErrorUtils.getMessage(error))
+             )
+           )
+         );
+         Node.Process.exit(1);
+         Js.Promise.resolve()
+       }
+     );
 
 /**
  * If this module was run from the command line, execute the main() routine

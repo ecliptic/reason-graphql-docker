@@ -1,5 +1,5 @@
 {
-  "name": "reason-express-heroku",
+  "name": "reason-graphql-docker",
   "sources": [
     {
       "dir": "src",

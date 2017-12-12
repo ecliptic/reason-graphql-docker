@@ -1,0 +1,15 @@
+scalar DateTime
+
+enum Size {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+# A delightful paper clip model
+type PaperClip {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  size: Size
+}

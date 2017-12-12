@@ -1,18 +1,10 @@
 {
-  "extends": ["plugin:flowtype/recommended", "standard", "standard-react"],
+  "extends": ["standard", "standard-react"],
   "parser": "babel-eslint",
-  "plugins": ["flowtype"],
   "rules": {
     "jsx-quotes": ["error", "prefer-double"],
     "comma-dangle": ["error", "always-multiline"],
-    "object-curly-spacing": ["error", "never"],
-    "flowtype/require-valid-file-annotation": [
-      "error",
-      "always",
-      {
-        "annotationStyle": "line"
-      }
-    ]
+    "object-curly-spacing": ["error", "never"]
   },
   "env": {
     "jest": true

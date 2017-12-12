@@ -1,0 +1,26 @@
+type Query {
+  # Retrieve all PaperClips
+  allPaperClips(filter: PaperClipInput): [PaperClip]
+
+  # Retrieve an individual PaperClip
+  paperClip(id: ID!): PaperClip
+}
+
+type EmptyResult {
+  success: Boolean
+}
+
+type Mutation {
+  # Add a new PaperClip
+  addPaperClip(paperClip: PaperClipInput!): PaperClip
+
+  # Update an existing PaperClip
+  updatePaperClip(id: ID!, paperClip: PaperClipInput!): PaperClip
+
+  # Remove an existing PaperClip
+  removePaperClip(id: ID!): EmptyResult
+}
+
+input PaperClipInput {
+  size: Size
+}

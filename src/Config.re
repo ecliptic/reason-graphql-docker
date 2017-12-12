@@ -16,5 +16,14 @@ module Server = {
 };
 
 module Database = {
-  let url = getEnvVar("DATABASE_URL", "postgres://username:password@localhost:5432/database");
+  let url = getEnvVar("DATABASE_URL", "postgres://trailmap:trailmap@localhost:5432/trailmap");
+  let config = DbUtils.parseDbUrl(url);
+  let name = config##database;
+  let username = config##user;
+  let password = config##password;
+  let hostname = config##host;
+  let port = config##port;
+  let poolMin = parseInt(getEnvVar("DATABASE_POOL_MIN", "0"), 10);
+  let poolMax = parseInt(getEnvVar("DATABASE_POOL_MAX", "10"), 10);
+  let poolIdle = parseInt(getEnvVar("DATABASE_POOL_IDLE", "10000"), 10);
 };

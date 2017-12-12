@@ -1,18 +1,16 @@
 {
-  "name": "reason-express-heroku",
+  "name": "reason-graphql-docker",
   "version": "0.1.0",
-  "description": "A demo deployment of ReasonML and Express on Heroku",
+  "description": "A demo deployment of ReasonML and Apollo GraphQL on Docker",
   "repository": {
     "type": "git",
-    "url": "git@github.com:bkonkle/reason-express-heroku.git"
+    "url": "git@github.com:ecliptic/reason-graphql-docker.git"
   },
   "author": "Brandon Konkle <brandon@ecliptic.io> (http://ecliptic.io)",
   "license": "UNLICENSED",
   "keywords": ["reasonml"],
   "scripts": {
     "test": "cross-env NODE_ENV=test jest",
-    "test.inspect":
-      "cross-env NODE_ENV=test node --inspect-brk node_modules/.bin/jest --runInBand",
     "test.watch": "cross-env NODE_ENV=test jest --watch",
     "precommit": "lint-staged",
     "prepush": "yarn build && yarn test",
