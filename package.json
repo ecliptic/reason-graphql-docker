@@ -7,7 +7,7 @@
     "url": "git@github.com:ecliptic/reason-graphql-docker.git"
   },
   "author": "Brandon Konkle <brandon@ecliptic.io> (http://ecliptic.io)",
-  "license": "UNLICENSED",
+  "license": "BSD-2-Clause",
   "keywords": ["reasonml"],
   "scripts": {
     "precommit": "lint-staged",
