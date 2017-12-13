@@ -59,18 +59,7 @@ type paperClipJson = {. "id": string, "createdAt": string, "updatedAt": string, 
 
 type paperClipInput = {. "size": string};
 
-type paperClipResolvers = {
-  .
-  "PaperClip": {
-    .
-    "createdAt": t => Js.Date.t,
-    "id": t => string,
-    "size": t => string,
-    "updatedAt": t => Js.Date.t
-  }
-};
-
-let resolvers: paperClipResolvers = {
+let resolvers = {
   "PaperClip": {
     "id": Resolve.id,
     "createdAt": Resolve.createdAt,

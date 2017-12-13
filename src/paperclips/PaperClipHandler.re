@@ -1,7 +1,7 @@
 type emptyResult = {. "success": bool};
 
-type t('context) = {
-  resolvers: PaperClip.paperClipResolvers,
+type t('resolvers, 'context) = {
+  resolvers: 'resolvers,
   queries: {
     .
     "allPaperClips":
