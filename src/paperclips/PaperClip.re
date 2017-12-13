@@ -26,16 +26,6 @@ type t = {
   size: Size.t
 };
 
-module Decode = {
-  let paperClip = (json) =>
-    Json.Decode.{
-      id: json |> field("id", string),
-      createdAt: json |> field("created_at", string) |> Js.Date.fromString,
-      updatedAt: json |> field("updated_at", string) |> Js.Date.fromString,
-      size: json |> field("size", string) |> Size.fromString
-    };
-};
-
 module Resolve = {
   let id = (paperClip: t) => paperClip.id;
   let createdAt = (paperClip: t) => paperClip.createdAt;
@@ -53,6 +43,16 @@ module Encode = {
       ("updatedAt", paperClip |> updatedAt |> Js.Date.toISOString |> string),
       ("size", paperClip |> size |> string)
     ]);
+};
+
+module Decode = {
+  let paperClip = (json) =>
+    Json.Decode.{
+      id: json |> field("id", string),
+      createdAt: json |> field("created_at", string) |> Js.Date.fromString,
+      updatedAt: json |> field("updated_at", string) |> Js.Date.fromString,
+      size: json |> field("size", string) |> Size.fromString
+    };
 };
 
 type paperClipJson = {. "id": string, "createdAt": string, "updatedAt": string, "size": string};

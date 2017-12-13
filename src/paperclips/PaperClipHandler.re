@@ -34,7 +34,6 @@ let make = (dataProvider: DataProvider.t('queryRow)) => {
         | Some(filter) => service.getAll(~size=Some(PaperClip.Size.fromString(filter##size)))
         | None => service.getAll(~size=None)
         }
-        /* service.getAll() */
       },
       "paperClip": (_context, input) => service.getById(~id=input##id)
     },
