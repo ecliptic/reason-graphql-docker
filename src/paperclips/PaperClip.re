@@ -30,16 +30,16 @@ module Decode = {
   let paperClip = (json) =>
     Json.Decode.{
       id: json |> field("id", string),
-      createdAt: json |> field("createdAt", string) |> Js.Date.fromString,
-      updatedAt: json |> field("updatedAt", string) |> Js.Date.fromString,
+      createdAt: json |> field("created_at", string) |> Js.Date.fromString,
+      updatedAt: json |> field("updated_at", string) |> Js.Date.fromString,
       size: json |> field("size", string) |> Size.fromString
     };
 };
 
 module Resolve = {
   let id = (paperClip: t) => paperClip.id;
-  let createdAt = (paperClip: t) => paperClip.createdAt |> Js.Date.toISOString;
-  let updatedAt = (paperClip: t) => paperClip.updatedAt |> Js.Date.toISOString;
+  let createdAt = (paperClip: t) => paperClip.createdAt;
+  let updatedAt = (paperClip: t) => paperClip.updatedAt;
   let size = (paperClip: t) => paperClip.size |> Size.toString;
 };
 
@@ -49,8 +49,8 @@ module Encode = {
   let paperClip = (paperClip: t) =>
     object_([
       ("id", paperClip |> id |> string),
-      ("createdAt", paperClip |> createdAt |> string),
-      ("updatedAt", paperClip |> updatedAt |> string),
+      ("createdAt", paperClip |> createdAt |> Js.Date.toISOString |> string),
+      ("updatedAt", paperClip |> updatedAt |> Js.Date.toISOString |> string),
       ("size", paperClip |> size |> string)
     ]);
 };

@@ -5,7 +5,7 @@ type t('resolvers, 'context) = {
   queries: {
     .
     "allPaperClips":
-      (Js.t('context), Js.Nullable.t({. "filter": PaperClip.paperClipInput})) =>
+      (Js.t('context), {. "filter": Js.Nullable.t(PaperClip.paperClipInput)}) =>
       Js.Promise.t(array(PaperClip.t)),
     "paperClip": (Js.t('context), {. "id": string}) => Js.Promise.t(PaperClip.t)
   },
@@ -29,9 +29,9 @@ let make = (dataProvider: DataProvider.t('queryRow)) => {
     resolvers: PaperClip.resolvers,
     queries: {
       "allPaperClips": (_context, input) => {
-        let opt = Js.Nullable.to_opt(input);
+        let opt = Js.Nullable.to_opt(input##filter);
         switch opt {
-        | Some(input) => service.getAll(~size=Some(PaperClip.Size.fromString(input##filter##size)))
+        | Some(filter) => service.getAll(~size=Some(PaperClip.Size.fromString(filter##size)))
         | None => service.getAll(~size=None)
         }
         /* service.getAll() */

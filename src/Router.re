@@ -14,6 +14,7 @@ module GraphQL = {
     let paperClip = PaperClipHandler.make(dataProvider);
     let resolvers =
       empty()
+      |> assign(Schema.coreResolvers)
       |> assign(paperClip.resolvers)
       |> assign({"Query": empty() |> assign(paperClip.queries)})
       |> assign({"Mutation": empty() |> assign(paperClip.mutations)});

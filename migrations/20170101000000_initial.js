@@ -13,7 +13,7 @@ exports.up = function (knex, Promise) {
             .notNullable()
             .unique()
             .defaultTo(knex.raw('uuid_generate_v4()'))
-          table.timestamps()
+          table.timestamps(true, true)
 
           // fields
           table.string('size').notNullable()
