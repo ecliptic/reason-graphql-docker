@@ -4,7 +4,7 @@ This is an Express-based application server written in [ReasonML](https://reason
 
 ## Installation
 
-Easy deploy to Heroku: [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+~~Easy deploy to Heroku~~ (currently blocked - see notes on deployment below)
 
 ### Dependencies
 
