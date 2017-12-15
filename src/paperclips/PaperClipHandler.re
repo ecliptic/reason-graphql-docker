@@ -1,3 +1,27 @@
+open Config;
+
+open PaperClip.Resolve;
+
+type resolvers = {
+  .
+  "PaperClip": {
+    .
+    "id": (graphQLContext, PaperClip.t) => string,
+    "createdAt": (graphQLContext, PaperClip.t) => string,
+    "updatedAt": (graphQLContext, PaperClip.t) => string,
+    "size": (graphQLContext, PaperClip.t) => string
+  }
+};
+
+let resolvers: resolvers = {
+  "PaperClip": {
+    "id": (_context, paperClip) => paperClip |> id,
+    "createdAt": (_context, paperClip) => paperClip |> createdAt,
+    "updatedAt": (_context, paperClip) => paperClip |> updatedAt,
+    "size": (_context, paperClip) => paperClip |> size
+  }
+};
+
 type emptyResult = {. "success": bool};
 
 type t('resolvers, 'context) = {
@@ -26,7 +50,7 @@ type t('resolvers, 'context) = {
 let make = (dataProvider: DataProvider.t('queryRow)) => {
   let service = PaperClipService.make(dataProvider);
   {
-    resolvers: PaperClip.resolvers,
+    resolvers,
     queries: {
       "allPaperClips": (_context, input) => {
         let opt = Js.Nullable.to_opt(input##filter);

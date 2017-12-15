@@ -26,10 +26,14 @@ type t = {
   size: Size.t
 };
 
+type paperClipInput = {. "size": string};
+
+type paperClipJson = {. "id": string, "createdAt": string, "updatedAt": string, "size": string};
+
 module Resolve = {
   let id = (paperClip: t) => paperClip.id;
-  let createdAt = (paperClip: t) => paperClip.createdAt;
-  let updatedAt = (paperClip: t) => paperClip.updatedAt;
+  let createdAt = (paperClip: t) => paperClip.createdAt |> Js.Date.toISOString;
+  let updatedAt = (paperClip: t) => paperClip.updatedAt |> Js.Date.toISOString;
   let size = (paperClip: t) => paperClip.size |> Size.toString;
 };
 
@@ -39,8 +43,8 @@ module Encode = {
   let paperClip = (paperClip: t) =>
     object_([
       ("id", paperClip |> id |> string),
-      ("createdAt", paperClip |> createdAt |> Js.Date.toISOString |> string),
-      ("updatedAt", paperClip |> updatedAt |> Js.Date.toISOString |> string),
+      ("createdAt", paperClip |> createdAt |> string),
+      ("updatedAt", paperClip |> updatedAt |> string),
       ("size", paperClip |> size |> string)
     ]);
 };
@@ -53,17 +57,4 @@ module Decode = {
       updatedAt: json |> field("updated_at", string) |> Js.Date.fromString,
       size: json |> field("size", string) |> Size.fromString
     };
-};
-
-type paperClipJson = {. "id": string, "createdAt": string, "updatedAt": string, "size": string};
-
-type paperClipInput = {. "size": string};
-
-let resolvers = {
-  "PaperClip": {
-    "id": Resolve.id,
-    "createdAt": Resolve.createdAt,
-    "updatedAt": Resolve.updatedAt,
-    "size": Resolve.size
-  }
 };
