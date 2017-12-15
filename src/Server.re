@@ -74,7 +74,7 @@ let main = () =>
            TextUtils.red(
              Js.Option.getWithDefault(
                "(no message)",
-               Js.Nullable.to_opt(ErrorUtils.getMessage(error))
+               Js.Nullable.to_opt(PromiseUtils.getMessage(error))
              )
            )
          );

@@ -30,21 +30,24 @@ let handleGetById = (paperClips: query('row), ~id) =>
   |> where({"id": id})
   |> select("*")
   |> then_(handleResponse(~error="No PaperClip found with id: " ++ id))
-  |> then_(pickFirst);
+  |> then_(pickFirst)
+  |> DbUtils.handleDbErrors;
 
 let handleAdd = (paperClips: query('row), ~paperClip) =>
   paperClips
   |> insert(paperClip)
   |> returning("*")
   |> then_(handleResponse(~error="Unable to add PaperClip."))
-  |> then_(pickFirst);
+  |> then_(pickFirst)
+  |> DbUtils.handleDbErrors;
 
 let handleUpdate = (paperClips: query('row), ~id, ~paperClip) =>
   paperClips
   |> where({"id": id})
   |> update(paperClip)
   |> then_(handleResponse(~error="Unable to update PaperClip with id: " ++ id))
-  |> then_(pickFirst);
+  |> then_(pickFirst)
+  |> DbUtils.handleDbErrors;
 
 let handleRemove = (paperClips: query('row), ~id) =>
   paperClips

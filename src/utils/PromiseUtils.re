@@ -2,9 +2,11 @@ open Js.Promise;
 
 [@bs.new] external makeError : string => exn = "Error";
 
-external castAsExn : Js.Promise.error => Js.Exn.t = "%identity";
+[@bs.get] external getMessage : Js.Promise.error => Js.Nullable.t(string) = "message";
 
-[@bs.get] external exnConstraint : Js.Promise.error => Js.Nullable.t(string) = "constraint";
+external toJsExn : Js.Promise.error => Js.Exn.t = "%identity";
+
+external toExn : Js.Promise.error => exn = "%identity";
 
 module Router = {
   type t;
@@ -24,7 +26,7 @@ module Router = {
 };
 
 let logMessage = (exn: error) => {
-  let message = Js.Exn.message(castAsExn(exn));
+  let message = Js.Exn.message(toJsExn(exn));
   Js.log(
     switch message {
     | Some(msg) => msg
