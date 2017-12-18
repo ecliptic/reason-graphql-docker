@@ -1979,7 +1979,7 @@ express-promise-router@^2.0.0:
     lodash "^4.13.1"
     methods "^1.0.0"
 
-express@^4.14.0, express@^4.16.2:
+express@^4.14.0:
   version "4.16.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.2.tgz#e35c6dfe2d64b7dca0a5cd4f21781be3299e076c"
   dependencies:
@@ -3747,10 +3747,6 @@ mock-knex@^0.4.0:
     lodash "^4.14.2"
     semver "^5.3.0"
 
-"mongodb-uri@>= 0.9.7":
-  version "0.9.7"
-  resolved "https://registry.yarnpkg.com/mongodb-uri/-/mongodb-uri-0.9.7.tgz#0f771ad16f483ae65f4287969428e9fbc4aa6181"
-
 morgan@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.9.0.tgz#d01fa6c65859b76fcf31b3cb53a3821a311d8051"
@@ -4047,12 +4043,6 @@ param-case@^2.1.0:
   resolved "https://registry.yarnpkg.com/param-case/-/param-case-2.1.1.tgz#df94fd8cf6531ecf75e6bef9a0858fbc72be2247"
   dependencies:
     no-case "^2.2.0"
-
-parse-database-url@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/parse-database-url/-/parse-database-url-0.3.0.tgz#369666321e927c9ade63cdfc1aaaf6fb37453d0d"
-  dependencies:
-    mongodb-uri ">= 0.9.7"
 
 parse-filepath@^1.0.1:
   version "1.0.1"

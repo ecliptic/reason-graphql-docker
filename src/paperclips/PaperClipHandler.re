@@ -1,24 +1,22 @@
-open Config;
-
 open PaperClip.Resolve;
 
 type resolvers = {
   .
   "PaperClip": {
     .
-    "id": (graphQLContext, PaperClip.t) => string,
-    "createdAt": (graphQLContext, PaperClip.t) => string,
-    "updatedAt": (graphQLContext, PaperClip.t) => string,
-    "size": (graphQLContext, PaperClip.t) => string
+    "id": PaperClip.t => string,
+    "createdAt": PaperClip.t => string,
+    "updatedAt": PaperClip.t => string,
+    "size": PaperClip.t => string
   }
 };
 
 let resolvers: resolvers = {
   "PaperClip": {
-    "id": (_context, paperClip) => paperClip |> id,
-    "createdAt": (_context, paperClip) => paperClip |> createdAt,
-    "updatedAt": (_context, paperClip) => paperClip |> updatedAt,
-    "size": (_context, paperClip) => paperClip |> size
+    "id": (paperClip) => paperClip |> id,
+    "createdAt": (paperClip) => paperClip |> createdAt,
+    "updatedAt": (paperClip) => paperClip |> updatedAt,
+    "size": (paperClip) => paperClip |> size
   }
 };
 

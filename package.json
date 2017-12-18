@@ -8,13 +8,12 @@
   },
   "author": "Brandon Konkle <brandon@ecliptic.io> (http://ecliptic.io)",
   "license": "BSD-2-Clause",
-  "keywords": [
-    "reasonml"
-  ],
+  "keywords": ["reasonml"],
   "scripts": {
-    "precommit": "lint-staged",
-    "prepush": "yarn build && yarn test",
-    "postinstall": "mkdir -p lib/js/graphql && rsync -a graphql/ lib/js/graphql/",
+    "precommit": "lint-staged && yarn build",
+    "prepush": "yarn test",
+    "postinstall":
+      "mkdir -p lib/js/graphql && rsync -a graphql/ lib/js/graphql/",
     "test": "cross-env NODE_ENV=test jest",
     "test.watch": "cross-env NODE_ENV=test jest --watch",
     "format": "prettier-eslint --write \"packages/*/src/**/*.js\"",
@@ -43,17 +42,12 @@
     "bs-knex": "^0.1.0",
     "bs-node-debug": "^0.1.0",
     "bs-promise-router": "^0.1.0",
-    "chalk": "^2.3.0",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "express": "^4.16.2",
-    "express-promise-router": "^2.0.0",
     "graphql": "^0.10.5",
     "graphql-tag": "^2.5.0",
     "graphql-tools": "^2.11.0",
-    "knex": "^0.14.2",
     "morgan": "^1.9.0",
-    "parse-database-url": "^0.3.0",
     "pg": "^7.4.0"
   },
   "devDependencies": {
@@ -89,14 +83,11 @@
     "prettier-eslint-cli": "^4.6.1"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "re",
-      "js",
-      "ml"
-    ],
+    "moduleFileExtensions": ["re", "js", "ml"],
     "testURL": "http://localhost",
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$": "identity-obj-proxy"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$":
+        "identity-obj-proxy"
     },
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
@@ -108,14 +99,8 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "format",
-      "git add"
-    ],
-    "*.re": [
-      "format.re",
-      "git add"
-    ]
+    "*.js": ["format", "git add"],
+    "*.re": ["format.re", "git add"]
   },
   "engines": {
     "node": "8.x.x",
