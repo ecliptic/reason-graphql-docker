@@ -23,7 +23,7 @@ module Database = {
       "DATABASE_URL",
       "postgres://reason_graphql_docker@localhost:5432/reason_graphql_docker"
     );
-  let config = DbUtils.parseDbUrl(url);
+  let config = KnexUtils.parseDbUrl(url);
   let name = config##database;
   let username = config##user;
   let password = config##password;

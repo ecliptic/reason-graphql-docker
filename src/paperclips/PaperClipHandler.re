@@ -47,7 +47,7 @@ type t('resolvers, 'context) = {
 /**
  * Initialize a new PaperClipHandler
  */
-let make = (dataProvider: DataProvider.t('queryRow)) => {
+let make = (dataProvider: DataProvider.t) => {
   let service = PaperClipService.make(dataProvider);
   {
     resolvers,

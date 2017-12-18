@@ -7,13 +7,17 @@
     }
   ],
   "bs-dependencies": [
-    "bs-json",
-    "bs-graphql",
-    "bs-graphql-tools",
-    "bs-express",
+    "bs-batteries",
     "bs-apollo-server-express",
-    "bs-jest",
-    "bs-batteries"
+    "bs-chalk",
+    "bs-express",
+    "bs-graphql",
+    "bs-graphql-scalar",
+    "bs-graphql-tools",
+    "bs-json",
+    "bs-knex",
+    "bs-node-debug",
+    "bs-promise-router"
   ],
   "reason": {
     "react-jsx": 2

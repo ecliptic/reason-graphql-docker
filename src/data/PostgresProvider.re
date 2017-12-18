@@ -1,15 +1,13 @@
-open KnexUtils;
-
-type t('queryRow) = {fromTable: (~name: string) => query('queryRow)};
+type t = {fromTable: (~name: string) => Knex.query};
 
 /**
  * Initialize a new Postgres provider
  */
-let make = () : Js.Promise.t(t('queryRow)) =>
+let make = () : Js.Promise.t(t) =>
   Js.Promise.make(
     (~resolve, ~reject) => {
       let knex =
-        KnexUtils.make({
+        Knex.make({
           "client": "pg",
           "connection": {
             "user": Config.Database.username,
@@ -28,7 +26,7 @@ let make = () : Js.Promise.t(t('queryRow)) =>
       /* Define the DataProvider interface */
       let interface = {fromTable: (~name) => [@bs] knex(name, "")};
       /* Verify the connection before proceeding */
-      raw(knex, "select now()")
+      Knex.raw(knex, "select now()")
       /* Everything's good! Let's resolve with the interface */
       |> Js.Promise.then_(
            (result) => {

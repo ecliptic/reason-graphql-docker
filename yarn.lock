@@ -1023,6 +1023,12 @@ bs-batteries@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/bs-batteries/-/bs-batteries-0.0.14.tgz#51536a489615087c05774525c38ab56b4d45df4c"
 
+bs-chalk@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/bs-chalk/-/bs-chalk-0.1.0.tgz#abe4d5c24f373cfd70cd1c05fad43bc3df1784ab"
+  dependencies:
+    chalk "^2.3.0"
+
 bs-express@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/bs-express/-/bs-express-0.0.2.tgz#5ac7ecf342ac97528eba756c23c4e3adb2035936"
@@ -1034,6 +1040,14 @@ bs-express@^0.0.5:
   resolved "https://registry.yarnpkg.com/bs-express/-/bs-express-0.0.5.tgz#083c451d889df0a117725c2fc14733fcfd20be46"
   dependencies:
     express "^4.14.0"
+
+bs-graphql-scalar@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/bs-graphql-scalar/-/bs-graphql-scalar-0.1.0.tgz#0437e9ee8cc99655369472bdb8398a417940f2b7"
+  dependencies:
+    bs-graphql "^0.3.1"
+    chalk "^2.3.0"
+    graphql "^0.12.3"
 
 bs-graphql-tools@^0.3.1:
   version "0.3.1"
@@ -1056,9 +1070,29 @@ bs-json@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/bs-json/-/bs-json-0.2.4.tgz#dc09dad32ebb27ba71ed587ed76366f193fb96e8"
 
+bs-knex@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/bs-knex/-/bs-knex-0.1.0.tgz#eaf639ebcc21bb4d46c1dd35b26234064013ec5e"
+  dependencies:
+    bs-node-debug "^0.1.0"
+    knex "^0.14.2"
+
+bs-node-debug@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/bs-node-debug/-/bs-node-debug-0.1.0.tgz#15af39d6bb468eaee86e6b9c78e6cf95f9987841"
+  dependencies:
+    debug "^3.1.0"
+
 bs-platform@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-2.0.0.tgz#17ee607fa829f67b8b920438ebca5ec1deab3276"
+
+bs-promise-router@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/bs-promise-router/-/bs-promise-router-0.1.0.tgz#adc734579851ff9e6778db85339a64c6de3d7dee"
+  dependencies:
+    bs-express "^0.0.5"
+    express-promise-router "^2.0.0"
 
 bser@^2.0.0:
   version "2.0.0"
@@ -2372,9 +2406,15 @@ graphql@0.9.6, graphql@^0.9.5, graphql@^0.9.6:
   dependencies:
     iterall "^1.0.0"
 
-graphql@^0.11.7:
-  version "0.11.7"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.11.7.tgz#e5abaa9cb7b7cccb84e9f0836bf4370d268750c6"
+graphql@^0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.10.5.tgz#c9be17ca2bdfdbd134077ffd9bbaa48b8becd298"
+  dependencies:
+    iterall "^1.1.0"
+
+graphql@^0.12.3:
+  version "0.12.3"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.12.3.tgz#11668458bbe28261c0dcb6e265f515ba79f6ce07"
   dependencies:
     iterall "1.1.3"
 
@@ -2918,7 +2958,7 @@ istanbul-reports@^1.1.3:
   dependencies:
     handlebars "^4.0.3"
 
-iterall@1.1.3, iterall@^1.0.0:
+iterall@1.1.3, iterall@^1.0.0, iterall@^1.1.0:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.1.3.tgz#1cbbff96204056dde6656e2ed2e2226d0e6d72c9"
 

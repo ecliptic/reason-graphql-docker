@@ -1,16 +1,16 @@
 open Js.Obj;
 
 module Web = {
-  external asMiddleware : PromiseUtils.Router.t => Express.Middleware.t = "%identity";
+  external asMiddleware : PromiseRouter.t => Express.Middleware.t = "%identity";
   let make = () => {
-    let router = PromiseUtils.Router.make();
-    PromiseUtils.Router.get(router, ~path="/", HttpUtils.heartbeat);
+    let router = PromiseRouter.make();
+    PromiseRouter.get(router, ~path="/", HttpUtils.heartbeat);
     asMiddleware(router)
   };
 };
 
 module GraphQL = {
-  let makeSchema = (dataProvider: DataProvider.t('queryRow)) => {
+  let makeSchema = (dataProvider: DataProvider.t) => {
     let paperClip = PaperClipHandler.make(dataProvider);
     let resolvers =
       empty()
@@ -23,6 +23,6 @@ module GraphQL = {
       "resolvers": resolvers
     })
   };
-  let make = (dataProvider: DataProvider.t('queryRow)) =>
+  let make = (dataProvider: DataProvider.t) =>
     makeSchema(dataProvider) |> ApolloServerExpress.createGraphQLExpressMiddleware;
 };

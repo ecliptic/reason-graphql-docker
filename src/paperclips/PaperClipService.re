@@ -1,5 +1,7 @@
 open Js.Promise;
 
+open Knex;
+
 open KnexUtils;
 
 type t = {
@@ -16,43 +18,47 @@ let handleResponse:
   (~error: string, array(PaperClip.paperClipJson)) => Js.Promise.t(Js.Array.t(PaperClip.t)) =
   rejectIfEmpty(~decoder=PaperClip.Decode.paperClip);
 
-let handleGetAll = (paperClips: query('row), ~size) => {
+let handleGetAll = (paperClips: Knex.query, ~size) => {
   let query =
     switch size {
     | Some(size) => paperClips |> where({"size": PaperClip.Size.toString(size)})
     | None => paperClips
     };
-  query |> select("*") |> then_(handleResponse(~error="No PaperClips found."))
+  query |> select("*") |> toPromise |> then_(handleResponse(~error="No PaperClips found."))
 };
 
-let handleGetById = (paperClips: query('row), ~id) =>
+let handleGetById = (paperClips: Knex.query, ~id) =>
   paperClips
   |> where({"id": id})
   |> select("*")
+  |> toPromise
   |> then_(handleResponse(~error="No PaperClip found with id: " ++ id))
   |> then_(pickFirst)
-  |> DbUtils.handleDbErrors;
+  |> handleDbErrors;
 
-let handleAdd = (paperClips: query('row), ~paperClip) =>
+let handleAdd = (paperClips: Knex.query, ~paperClip) =>
   paperClips
   |> insert(paperClip)
   |> returning("*")
+  |> toPromise
   |> then_(handleResponse(~error="Unable to add PaperClip."))
   |> then_(pickFirst)
-  |> DbUtils.handleDbErrors;
+  |> handleDbErrors;
 
-let handleUpdate = (paperClips: query('row), ~id, ~paperClip) =>
+let handleUpdate = (paperClips: Knex.query, ~id, ~paperClip) =>
   paperClips
   |> where({"id": id})
   |> update(paperClip)
+  |> toPromise
   |> then_(handleResponse(~error="Unable to update PaperClip with id: " ++ id))
   |> then_(pickFirst)
-  |> DbUtils.handleDbErrors;
+  |> handleDbErrors;
 
-let handleRemove = (paperClips: query('row), ~id) =>
+let handleRemove = (paperClips: Knex.query, ~id) =>
   paperClips
   |> where({"id": id})
   |> del()
+  |> toPromise
   |> then_(
        (response) =>
          switch response {
@@ -64,7 +70,7 @@ let handleRemove = (paperClips: query('row), ~id) =>
 /**
  * Initialize a new PaperClipService
  */
-let make = (dataProvider: DataProvider.t('row)) => {
+let make = (dataProvider: DataProvider.t) => {
   let paperClips = dataProvider.postgres.fromTable(~name="paper_clips");
   {
     getAll: handleGetAll(paperClips),

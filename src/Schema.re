@@ -1,4 +1,4 @@
-open GraphQLUtils;
+open GraphQLScalar;
 
 [@bs.val] external __dirname : string = "";
 

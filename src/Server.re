@@ -18,14 +18,14 @@ let onListen = (exn) => {
   switch error {
   | Some(err) =>
     Js.log(
-      TextUtils.red("Express listen error: ")
+      Chalk.red("Express listen error: ")
       ++ Js.Option.getWithDefault("(no message)", Js.Exn.message(err))
     )
   | None =>
     Js.log(
-      TextUtils.blue("telepathic")
+      Chalk.blue("telepathic")
       ++ " is listening on port "
-      ++ TextUtils.green(Js.Int.toString(Config.Server.port))
+      ++ Chalk.green(Js.Int.toString(Config.Server.port))
     )
   }
 };
@@ -71,7 +71,7 @@ let main = () =>
   |> catch(
        (error) => {
          Js.log(
-           TextUtils.red(
+           Chalk.red(
              Js.Option.getWithDefault(
                "(no message)",
                Js.Nullable.to_opt(PromiseUtils.getMessage(error))
