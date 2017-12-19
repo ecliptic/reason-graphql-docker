@@ -1,3 +1,5 @@
+open Config;
+
 open PaperClip.Resolve;
 
 type resolvers = {
@@ -22,23 +24,23 @@ let resolvers: resolvers = {
 
 type emptyResult = {. "success": bool};
 
-type t('resolvers, 'context) = {
-  resolvers: 'resolvers,
+type t = {
+  resolvers,
   queries: {
     .
     "allPaperClips":
-      (Js.t('context), {. "filter": Js.Nullable.t(PaperClip.paperClipInput)}) =>
+      (graphQLContext, {. "filter": Js.Nullable.t(PaperClip.paperClipInput)}) =>
       Js.Promise.t(array(PaperClip.t)),
-    "paperClip": (Js.t('context), {. "id": string}) => Js.Promise.t(PaperClip.t)
+    "paperClip": (graphQLContext, {. "id": string}) => Js.Promise.t(PaperClip.t)
   },
   mutations: {
     .
     "addPaperClip":
-      (Js.t('context), {. "paperClip": PaperClip.paperClipInput}) => Js.Promise.t(PaperClip.t),
+      (graphQLContext, {. "paperClip": PaperClip.paperClipInput}) => Js.Promise.t(PaperClip.t),
     "updatePaperClip":
-      (Js.t('context), {. "id": string, "paperClip": PaperClip.paperClipInput}) =>
+      (graphQLContext, {. "id": string, "paperClip": PaperClip.paperClipInput}) =>
       Js.Promise.t(PaperClip.t),
-    "removePaperClip": (Js.t('context), {. "id": string}) => Js.Promise.t(emptyResult)
+    "removePaperClip": (graphQLContext, {. "id": string}) => Js.Promise.t(emptyResult)
   }
 };
 
