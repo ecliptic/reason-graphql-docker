@@ -82,28 +82,20 @@
     "prettier-eslint-cli": "^4.6.1"
   },
   "jest": {
-    "moduleFileExtensions": ["re", "js", "ml"],
     "testURL": "http://localhost",
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$":
-        "identity-obj-proxy"
-    },
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom"
     ],
+    "testMatch": ["**/?(*)(Spec|Test).js"],
+    "testPathIgnorePatterns": ["/node_modules/"],
     "transform": {
-      "\\.(gql|graphql)$": "jest-transform-graphql",
-      ".(re|ml)": "bs-loader",
-      ".*": "babel-jest"
-    }
+      ".(js|jsx)": "babel-jest"
+    },
+    "testEnvironment": "node"
   },
   "lint-staged": {
-    "*.js": ["format", "git add"],
-    "*.re": ["format.re", "git add"]
-  },
-  "engines": {
-    "node": "8.x.x",
-    "yarn": "1.x.x"
+    "src/**/*.js": ["prettier-eslint --write", "git add"],
+    "src/**/*.re": ["refmt --in-place", "git add"]
   }
 }
