@@ -65,6 +65,7 @@ build
 
 # Ocaml / Reason
 .merlin
+.bsb.lock
 
 # Compiled files
 lib/*

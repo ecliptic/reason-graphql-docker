@@ -23,7 +23,7 @@ let onListen = (exn) => {
     )
   | None =>
     Js.log(
-      Chalk.blue("telepathic")
+      Chalk.blue("Server")
       ++ " is listening on port "
       ++ Chalk.green(Js.Int.toString(Config.Server.port))
     )

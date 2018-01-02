@@ -37,24 +37,22 @@ module Resolve = {
   let size = (paperClip: t) => paperClip.size |> Size.toString;
 };
 
-module Encode = {
-  open Json.Encode;
-  open Resolve;
-  let paperClip = (paperClip: t) =>
-    object_([
-      ("id", paperClip |> id |> string),
-      ("createdAt", paperClip |> createdAt |> string),
-      ("updatedAt", paperClip |> updatedAt |> string),
-      ("size", paperClip |> size |> string)
-    ]);
-};
+let encode = (paperClip: t) : Js.Json.t =>
+  Json.Encode.(
+    Resolve.(
+      object_([
+        ("id", paperClip |> id |> string),
+        ("createdAt", paperClip |> createdAt |> string),
+        ("updatedAt", paperClip |> updatedAt |> string),
+        ("size", paperClip |> size |> string)
+      ])
+    )
+  );
 
-module Decode = {
-  let paperClip = (json) =>
-    Json.Decode.{
-      id: json |> field("id", string),
-      createdAt: json |> field("created_at", string) |> Js.Date.fromString,
-      updatedAt: json |> field("updated_at", string) |> Js.Date.fromString,
-      size: json |> field("size", string) |> Size.fromString
-    };
-};
+let decode = (json: Js.Json.t) : t =>
+  Json.Decode.{
+    id: json |> field("id", string),
+    createdAt: json |> field("created_at", string) |> Js.Date.fromString,
+    updatedAt: json |> field("updated_at", string) |> Js.Date.fromString,
+    size: json |> field("size", string) |> Size.fromString
+  };

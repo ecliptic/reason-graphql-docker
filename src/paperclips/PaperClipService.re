@@ -16,7 +16,7 @@ type t = {
 
 let handleResponse:
   (~error: string, array(PaperClip.paperClipJson)) => Js.Promise.t(Js.Array.t(PaperClip.t)) =
-  rejectIfEmpty(~decoder=PaperClip.Decode.paperClip);
+  rejectIfEmpty(~decoder=PaperClip.decode);
 
 let handleGetAll = (paperClips: Knex.query, ~size) => {
   let query =
@@ -70,8 +70,8 @@ let handleRemove = (paperClips: Knex.query, ~id) =>
 /**
  * Initialize a new PaperClipService
  */
-let make = (dataProvider: DataProvider.t) => {
-  let paperClips = dataProvider.postgres.fromTable(~name="paper_clips");
+let make = (postgres: PostgresProvider.t) => {
+  let paperClips = postgres.fromTable(~name="paper_clips");
   {
     getAll: handleGetAll(paperClips),
     getById: handleGetById(paperClips),

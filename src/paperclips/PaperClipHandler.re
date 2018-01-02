@@ -48,7 +48,7 @@ type t = {
  * Initialize a new PaperClipHandler
  */
 let make = (dataProvider: DataProvider.t) => {
-  let service = PaperClipService.make(dataProvider);
+  let service = PaperClipService.make(dataProvider.postgres);
   {
     resolvers,
     queries: {
