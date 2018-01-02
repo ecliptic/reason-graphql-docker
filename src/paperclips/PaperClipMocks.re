@@ -25,7 +25,7 @@ module Service = {
       add: mockAdd |> getWithDefault((~paperClip as _add) => resolve(dummy)),
       update:
         mockUpdate |> getWithDefault((~id as _id, ~paperClip as _paperClip) => resolve(dummy)),
-      remove: mockRemove |> getWithDefault((~id) => resolve({"success": true}))
+      remove: mockRemove |> getWithDefault((~id as _id) => resolve({"success": true}))
     };
 };
 
