@@ -18,7 +18,7 @@ let handleResponse:
   (~error: string, array(PaperClip.paperClipJson)) => Js.Promise.t(Js.Array.t(PaperClip.t)) =
   rejectIfEmpty(~decoder=PaperClip.decode);
 
-let handleGetAll = (paperClips: Knex.query, ~size) => {
+let getAll = (paperClips: Knex.query, ~size) => {
   let query =
     switch size {
     | Some(size) => paperClips |> where({"size": PaperClip.Size.toString(size)})
@@ -27,7 +27,7 @@ let handleGetAll = (paperClips: Knex.query, ~size) => {
   query |> select("*") |> toPromise |> then_(handleResponse(~error="No PaperClips found."))
 };
 
-let handleGetById = (paperClips: Knex.query, ~id) =>
+let getById = (paperClips: Knex.query, ~id) =>
   paperClips
   |> where({"id": id})
   |> select("*")
@@ -36,7 +36,7 @@ let handleGetById = (paperClips: Knex.query, ~id) =>
   |> then_(pickFirst)
   |> handleDbErrors;
 
-let handleAdd = (paperClips: Knex.query, ~paperClip) =>
+let add = (paperClips: Knex.query, ~paperClip) =>
   paperClips
   |> insert(paperClip)
   |> returning("*")
@@ -45,7 +45,7 @@ let handleAdd = (paperClips: Knex.query, ~paperClip) =>
   |> then_(pickFirst)
   |> handleDbErrors;
 
-let handleUpdate = (paperClips: Knex.query, ~id, ~paperClip) =>
+let update = (paperClips: Knex.query, ~id, ~paperClip) =>
   paperClips
   |> where({"id": id})
   |> update(paperClip)
@@ -54,7 +54,7 @@ let handleUpdate = (paperClips: Knex.query, ~id, ~paperClip) =>
   |> then_(pickFirst)
   |> handleDbErrors;
 
-let handleRemove = (paperClips: Knex.query, ~id) =>
+let remove = (paperClips: Knex.query, ~id) =>
   paperClips
   |> where({"id": id})
   |> del()
@@ -73,10 +73,10 @@ let handleRemove = (paperClips: Knex.query, ~id) =>
 let make = (postgres: PostgresProvider.t) => {
   let paperClips = postgres.fromTable(~name="paper_clips");
   {
-    getAll: handleGetAll(paperClips),
-    getById: handleGetById(paperClips),
-    add: handleAdd(paperClips),
-    update: handleUpdate(paperClips),
-    remove: handleRemove(paperClips)
+    getAll: getAll(paperClips),
+    getById: getById(paperClips),
+    add: add(paperClips),
+    update: update(paperClips),
+    remove: remove(paperClips)
   }
 };
