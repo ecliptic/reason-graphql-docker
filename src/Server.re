@@ -72,10 +72,8 @@ let main = () =>
        (error) => {
          Js.log(
            Chalk.red(
-             Js.Option.getWithDefault(
-               "(no message)",
-               Js.Nullable.to_opt(PromiseUtils.getMessage(error))
-             )
+             Js.Nullable.to_opt(PromiseUtils.getMessage(error))
+             |> Js.Option.getWithDefault("(no message)")
            )
          );
          Node.Process.exit(1);
