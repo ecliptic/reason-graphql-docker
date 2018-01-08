@@ -11,7 +11,8 @@ describe(
         Skip.testPromise(
           "",
           () => {
-            let size = Schema.PaperClip.Size.Small;
+            open Schema.PaperClip;
+            let size = `Small;
             resolve(fail("TODO"))
           }
         )

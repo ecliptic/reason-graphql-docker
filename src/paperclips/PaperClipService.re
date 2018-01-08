@@ -11,8 +11,8 @@ type t = {
   getAll: (~size: option(PaperClip.size)) => Js.Promise.t(array(PaperClip.t)),
   getById: (~id: string) => Js.Promise.t(PaperClip.t),
   /* Mutations */
-  add: (~paperClip: input) => Js.Promise.t(PaperClip.t),
-  update: (~id: string, ~paperClip: input) => Js.Promise.t(PaperClip.t),
+  add: (~paperClip: Schema.Json.PaperClip.input) => Js.Promise.t(PaperClip.t),
+  update: (~id: string, ~paperClip: Schema.Json.PaperClip.input) => Js.Promise.t(PaperClip.t),
   remove: (~id: string) => Js.Promise.t({. "success": bool})
 };
 
