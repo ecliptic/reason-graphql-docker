@@ -1,30 +1,43 @@
-open GraphQLScalar;
+open BsAbstract;
 
-[@bs.val] external __dirname : string = "";
+open Js.Date;
 
-[@bs.new] external createDate : unit => Js.Date.t = "Date";
+module PaperClip = {
+  [@bs.deriving jsConverter]
+  type size = [ [@bs.as "SMALL"] | `Small [@bs.as "MEDIUM"] | `Medium [@bs.as "LARGE"] | `Large];
+  type t = {
+    id: string,
+    createdAt: Js.Date.t,
+    updatedAt: Js.Date.t,
+    size
+  };
+};
 
-let schema = Node.Fs.readFileAsUtf8Sync(__dirname ++ "/../graphql/schema.graphql");
+module Json = {
+  module PaperClip = {
+    type t = {. "id": string, "createdAt": string, "updatedAt": string, "size": string};
+    type input = {. "size": string};
+  };
+};
 
-let queries = Node.Fs.readFileAsUtf8Sync(__dirname ++ "/../graphql/queries.graphql");
+module Encode = {
+  open Json.Encode;
+  open Option.Infix;
+  let paperClip = (paperClip: PaperClip.t) : Js.Json.t =>
+    object_([
+      ("id", paperClip.id |> string),
+      ("createdAt", paperClip.createdAt <#> toISOString |> string),
+      ("updatedAt", paperClip.updatedAt <#> toISOString |> string),
+      ("size", paperClip.size |> string)
+    ]);
+};
 
-type coreResolvers = {. "DateTime": scalarType(string, Js.Date.t)};
-
-let coreResolvers: coreResolvers = {
-  "DateTime":
-    makeScalar({
-      "name": "DateTime",
-      "description": "DateTime custom scalar Type",
-      "serialize": (value) => value |> Js.Date.getTime |> Js.Float.toString |> Js.Nullable.return,
-      "parseValue": (str) => str |> Js.Date.fromString |> Js.Nullable.return,
-      "parseLiteral": (ast) => {
-        open Language;
-        let kind = getAstKind(ast);
-        if (kind === intKind) {
-          ast |> getAstValue |> TextUtils.parseInt_(10) |> Js.Nullable.return
-        } else {
-          Js.Nullable.null
-        }
-      }
-    })
+module Decode = {
+  open Json.Decode;
+  let decode = (json: Js.Json.t) : PaperClip.t => {
+    id: json |> field("id", string),
+    createdAt: json |> field("created_at", string) |> Js.Date.fromString,
+    updatedAt: json |> field("updated_at", string) |> Js.Date.fromString,
+    size: json |> field("size", string) |> Size.fromString
+  };
 };

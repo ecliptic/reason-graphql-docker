@@ -1,4 +1,4 @@
-type t = {fromTable: (~name: string) => Knex.query};
+type t = {knex: Knex.t};
 
 /**
  * Initialize a new Postgres provider
@@ -6,38 +6,40 @@ type t = {fromTable: (~name: string) => Knex.query};
 let make = () : Js.Promise.t(t) =>
   Js.Promise.make(
     (~resolve, ~reject) => {
-      let knex =
-        Knex.make({
-          "client": "pg",
-          "connection": {
-            "user": Config.Database.username,
-            "password": Config.Database.password,
-            "host": Config.Database.hostname,
-            "port": Config.Database.port,
-            "database": Config.Database.name
-          },
-          "pool": {
-            "min": Config.Database.poolMin,
-            "max": Config.Database.poolMax,
-            "idleTimeoutMillis": Config.Database.poolIdle
-          },
-          "acquireConnectionTimeout": 2000
-        });
-      /* Define the DataProvider interface */
-      let interface = {fromTable: (~name) => [@bs] knex(name, "")};
+      open Js.Nullable;
+      open Js.Option;
+      let connection =
+        KnexConfig.Connection.make(
+          ~user=Config.Database.username |> to_opt |> getWithDefault("paperclip"),
+          ~password=Config.Database.password |> to_opt |> getWithDefault("paperclip"),
+          ~host=Config.Database.hostname |> to_opt |> getWithDefault("localhost"),
+          ~port=Config.Database.port |> to_opt |> getWithDefault("5432"),
+          ~database=Config.Database.name |> to_opt |> getWithDefault("paperclip"),
+          ()
+        );
+      let pool =
+        KnexConfig.Pool.make(
+          ~min=Config.Database.poolMin,
+          ~max=Config.Database.poolMax,
+          ~idleTimeoutMillis=Config.Database.poolIdle,
+          ()
+        );
+      let config =
+        KnexConfig.make(~client="pg", ~connection, ~pool, ~acquireConnectionTimeout=2000, ());
+      let knex = Knex.make(config);
       /* Verify the connection before proceeding */
       Knex.raw(knex, "select now()")
       /* Everything's good! Let's resolve with the interface */
       |> Js.Promise.then_(
            (result) => {
-             [@bs] resolve(interface);
+             [@bs] resolve({knex: knex});
              Js.Promise.resolve(result)
            }
          )
       /* Something went wrong */
       |> Js.Promise.catch(
            (_exn) => {
-             let message = "Unable to connect to knex.  Ensure valid connection";
+             let message = "Unable to connect to Knex. Ensure valid connection";
              Js.log(message);
              [@bs] reject(PromiseUtils.makeError(message));
              Js.Promise.reject(PromiseUtils.makeError(message))

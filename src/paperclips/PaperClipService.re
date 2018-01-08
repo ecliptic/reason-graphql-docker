@@ -4,30 +4,32 @@ open Knex;
 
 open KnexUtils;
 
+open Schema;
+
 type t = {
   /* Queries */
-  getAll: (~size: option(PaperClip.Size.t)) => Js.Promise.t(array(PaperClip.t)),
+  getAll: (~size: option(PaperClip.size)) => Js.Promise.t(array(PaperClip.t)),
   getById: (~id: string) => Js.Promise.t(PaperClip.t),
   /* Mutations */
-  add: (~paperClip: PaperClip.paperClipInput) => Js.Promise.t(PaperClip.t),
-  update: (~id: string, ~paperClip: PaperClip.paperClipInput) => Js.Promise.t(PaperClip.t),
+  add: (~paperClip: input) => Js.Promise.t(PaperClip.t),
+  update: (~id: string, ~paperClip: input) => Js.Promise.t(PaperClip.t),
   remove: (~id: string) => Js.Promise.t({. "success": bool})
 };
 
 let handleResponse:
-  (~error: string, array(PaperClip.paperClipJson)) => Js.Promise.t(Js.Array.t(PaperClip.t)) =
-  rejectIfEmpty(~decoder=PaperClip.decode);
+  (~error: string, array(Json.PaperClip.t)) => Js.Promise.t(Js.Array.t(PaperClip.t)) =
+  rejectIfEmpty(~decoder=Decode.paperClip);
 
-let getAll = (paperClips: Knex.query, ~size) => {
+let getAll = (paperClips: Knex.queryBuilder, ~size) => {
   let query =
     switch size {
-    | Some(size) => paperClips |> where({"size": PaperClip.Size.toString(size)})
+    | Some(size) => paperClips |> where({"size": PaperClip.sizeToJs(size)})
     | None => paperClips
     };
   query |> select("*") |> toPromise |> then_(handleResponse(~error="No PaperClips found."))
 };
 
-let getById = (paperClips: Knex.query, ~id) =>
+let getById = (paperClips: Knex.queryBuilder, ~id) =>
   paperClips
   |> where({"id": id})
   |> select("*")
@@ -36,7 +38,7 @@ let getById = (paperClips: Knex.query, ~id) =>
   |> then_(pickFirst)
   |> handleDbErrors;
 
-let add = (paperClips: Knex.query, ~paperClip) =>
+let add = (paperClips: Knex.queryBuilder, ~paperClip) =>
   paperClips
   |> insert(paperClip)
   |> returning("*")
@@ -45,7 +47,7 @@ let add = (paperClips: Knex.query, ~paperClip) =>
   |> then_(pickFirst)
   |> handleDbErrors;
 
-let update = (paperClips: Knex.query, ~id, ~paperClip) =>
+let update = (paperClips: Knex.queryBuilder, ~id, ~paperClip) =>
   paperClips
   |> where({"id": id})
   |> update(paperClip)
@@ -54,7 +56,7 @@ let update = (paperClips: Knex.query, ~id, ~paperClip) =>
   |> then_(pickFirst)
   |> handleDbErrors;
 
-let remove = (paperClips: Knex.query, ~id) =>
+let remove = (paperClips: Knex.queryBuilder, ~id) =>
   paperClips
   |> where({"id": id})
   |> del()

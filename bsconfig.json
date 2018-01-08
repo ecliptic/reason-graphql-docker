@@ -1,5 +1,10 @@
 {
   "name": "reason-graphql-docker",
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  },
+  "suffix": ".bs.js",
   "sources": [
     {
       "dir": "src",
@@ -7,18 +12,18 @@
     }
   ],
   "bs-dependencies": [
-    "bs-batteries",
+    "@glennsl/bs-json",
+    "@glennsl/bs-jest",
+    "bs-abstract",
     "bs-apollo-server-express",
     "bs-chalk",
     "bs-express",
     "bs-graphql",
     "bs-graphql-scalar",
     "bs-graphql-tools",
-    "bs-json",
     "bs-knex",
     "bs-node-debug",
-    "bs-promise-router",
-    "bs-jest"
+    "bs-promise-router"
   ],
   "reason": {
     "react-jsx": 2

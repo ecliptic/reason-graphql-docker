@@ -1,3 +1,5 @@
+open Chalk;
+
 open Express.App;
 
 open Js.Promise;
@@ -8,27 +10,27 @@ open Js.Promise;
 
 [@bs.module "body-parser"] external json : 'a => Express.Middleware.t = "";
 
+let debug = Debug.make("paperclip-api", "Server");
+
+let debugExn = Debug.make("paperclip-api", "Server:exn");
+
 let graphiqlMiddleware = ApolloServerExpress.createGraphiQLExpressMiddleware("/graphql");
 
 /**
  * Report listen status
  */
-let onListen = (exn) => {
-  let error = Js.Nullable.to_opt(exn);
-  switch error {
+let onListen = (exn) =>
+  switch (Js.Nullable.to_opt(exn)) {
   | Some(err) =>
-    Js.log(
-      Chalk.red("Express listen error: ")
-      ++ Js.Option.getWithDefault("(no message)", Js.Exn.message(err))
-    )
+    debug("Express listen error");
+    debugExn(err)
   | None =>
     Js.log(
-      Chalk.blue("Server")
+      blue("trailmap-api")
       ++ " is listening on port "
-      ++ Chalk.green(Js.Int.toString(Config.Server.port))
+      ++ green(Js.Int.toString(Config.Server.port))
     )
-  }
-};
+  };
 
 /**
  * The start routine for the application server
@@ -70,12 +72,8 @@ let main = () =>
      )
   |> catch(
        (error) => {
-         Js.log(
-           Chalk.red(
-             Js.Nullable.to_opt(PromiseUtils.getMessage(error))
-             |> Js.Option.getWithDefault("(no message)")
-           )
-         );
+         debug("Uncaught server error");
+         debugExn(error |> PromiseUtils.toJsExn);
          Node.Process.exit(1);
          Js.Promise.resolve()
        }

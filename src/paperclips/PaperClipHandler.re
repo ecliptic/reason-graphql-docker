@@ -1,6 +1,6 @@
 open Config;
 
-open PaperClip.Resolve;
+open Schema;
 
 type resolvers = {
   .
@@ -15,10 +15,10 @@ type resolvers = {
 
 let resolvers: resolvers = {
   "PaperClip": {
-    "id": (paperClip) => paperClip |> id,
-    "createdAt": (paperClip) => paperClip |> createdAt,
-    "updatedAt": (paperClip) => paperClip |> updatedAt,
-    "size": (paperClip) => paperClip |> size
+    "id": (paperClip) => paperClip.id,
+    "createdAt": (paperClip) => paperClip.createdAt |> toISOString,
+    "updatedAt": (paperClip) => paperClip.updatedAt |> toISOString,
+    "size": (paperClip) => paperClip.size
   }
 };
 
