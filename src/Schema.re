@@ -1,5 +1,3 @@
-open BsAbstract;
-
 open Js.Date;
 
 module PaperClip = {
@@ -22,12 +20,11 @@ module Json = {
 
 module Encode = {
   open Json.Encode;
-  open Option.Infix;
   let paperClip = (paperClip: PaperClip.t) : Js.Json.t =>
     object_([
       ("id", paperClip.id |> string),
-      ("createdAt", paperClip.createdAt <#> toISOString |> string),
-      ("updatedAt", paperClip.updatedAt <#> toISOString |> string),
+      ("createdAt", paperClip.createdAt |> toISOString |> string),
+      ("updatedAt", paperClip.updatedAt |> toISOString |> string),
       ("size", paperClip.size |> string)
     ]);
 };
