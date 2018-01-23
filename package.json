@@ -8,25 +8,30 @@
   },
   "author": "Brandon Konkle <brandon@ecliptic.io> (http://ecliptic.io)",
   "license": "BSD-2-Clause",
-  "keywords": [
-    "reasonml"
-  ],
+  "keywords": ["reasonml"],
   "scripts": {
     "build": "bsb -make-world",
     "build.clean": "bsb -clean-world",
+    "build.container": "docker build -t ecliptic/reason-graphql-docker .",
+    "build.exe": "pkg src/Server.bs.js --targets node8-alpine-x64",
+    "build.prod":
+      "yarn build && yarn build.exe && yarn build.tasks && yarn build.container",
+    "build.push": "heroku container:push web",
     "build.watch": "yarn build -w",
-    "dev": "cross-env NODE_ENV=development dotenv node ./src/Server.bs.js",
-    "dev.debug": "cross-env DEBUG=paperclip-api:*,bs-knex:*,knex:* yarn dev",
-    "dev.watch": "chokidar --initial \"src/**/*.js\" -c \"yarn dev\"",
-    "lint": "eslint --ext .js,.jsx ./",
+    "dev": "NODE_ENV=development dotenv node src/Server.bs.js",
+    "dev.debug": "DEBUG=reason-graphql-docker:*,bs-knex:*,knex:* yarn dev",
+    "dev.watch":
+      "NODE_ENV=development dotenv nodemon src/Server.bs.js --delay 1",
+    "dev.watch.debug":
+      "DEBUG=reason-graphql-docker:*,bs-knex:*,knex:* yarn dev.watch",
     "migrate": "dotenv knex migrate:latest",
-    "postinstall": "rm -rf node_modules/bs-apollo-server-express/node_modules/bs-express",
+    "postinstall":
+      "rm -rf node_modules/bs-apollo-server-express/node_modules/bs-express",
     "precommit": "lint-staged",
     "prepublish": "yarn build",
-    "prepush": "yarn test",
-    "start": "cross-env NODE_ENV=production node ./src/Server.bs.js",
-    "test": "cross-env NODE_ENV=test jest",
-    "test.watch": "cross-env NODE_ENV=test jest --watch"
+    "start": "./Server.bs",
+    "test.watch": "NODE_ENV=test jest --watch",
+    "test": "NODE_ENV=test jest"
   },
   "dependencies": {
     "@glennsl/bs-json": "^1.1.2",
@@ -52,7 +57,8 @@
     "moment": "^2.20.1",
     "morgan": "^1.9.0",
     "parse-database-url": "^0.3.0",
-    "pg": "^7.4.1"
+    "pg": "^7.4.1",
+    "pkg": "^4.3.0-beta.5"
   },
   "devDependencies": {
     "@glennsl/bs-jest": "^0.3.3",
@@ -91,25 +97,15 @@
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom"
     ],
-    "testMatch": [
-      "**/?(*)(Spec|Test).js"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ],
+    "testMatch": ["**/?(*)(Spec|Test).js"],
+    "testPathIgnorePatterns": ["/node_modules/"],
     "transform": {
       ".(js|jsx)": "babel-jest"
     },
     "testEnvironment": "node"
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "prettier-eslint --write",
-      "git add"
-    ],
-    "src/**/*.re": [
-      "refmt --in-place",
-      "git add"
-    ]
+    "src/**/*.js": ["prettier-eslint --write", "git add"],
+    "src/**/*.re": ["refmt --in-place", "git add"]
   }
 }
