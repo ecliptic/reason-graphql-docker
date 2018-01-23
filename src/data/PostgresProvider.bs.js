@@ -18,15 +18,15 @@ function make () {
         Js_primitive.null_undefined_to_opt(Config.Database[/* port */ 6])
       ),
       user: Js_option.getWithDefault(
-        'trailmap',
+        'paper_clips',
         Js_primitive.null_undefined_to_opt(Config.Database[/* username */ 3])
       ),
       password: Js_option.getWithDefault(
-        'trailmap',
+        'paper_clips',
         Js_primitive.null_undefined_to_opt(Config.Database[/* password */ 4])
       ),
       database: Js_option.getWithDefault(
-        'trailmap',
+        'paper_clips',
         Js_primitive.null_undefined_to_opt(Config.Database[/* name */ 2])
       ),
     }

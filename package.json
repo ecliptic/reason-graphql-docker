@@ -46,9 +46,10 @@
     "bs-promise-router": "^0.2.0",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "graphql": "^0.12.3",
+    "graphql": "^0.11.0",
     "graphql-tag": "^2.6.1",
     "graphql-tools": "^2.18.0",
+    "moment": "^2.20.1",
     "morgan": "^1.9.0",
     "parse-database-url": "^0.3.0",
     "pg": "^7.4.1"
