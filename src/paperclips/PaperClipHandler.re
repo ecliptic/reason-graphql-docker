@@ -29,21 +29,26 @@ let resolvers: resolvers = {
 
 type emptyResult = {. "success": bool};
 
-type t = {
+type t('root) = {
   resolvers,
   queries: {
     .
     "allPaperClips":
-      (graphQLContext, {. "filter": Js.Nullable.t(PaperClip.t)}) =>
+      (Js.Nullable.t('root), {. "filter": Js.Nullable.t(PaperClip.t)}, Js.t(graphQLContext)) =>
       Js.Promise.t(array(PaperClip.t)),
-    "paperClip": (graphQLContext, {. "id": string}) => Js.Promise.t(PaperClip.t)
+    "paperClip":
+      (Js.Nullable.t('root), {. "id": string}, Js.t(graphQLContext)) => Js.Promise.t(PaperClip.t)
   },
   mutations: {
     .
-    "addPaperClip": (graphQLContext, {. "paperClip": PaperClip.t}) => Js.Promise.t(PaperClip.t),
+    "addPaperClip":
+      (Js.Nullable.t('root), {. "paperClip": PaperClip.t}, Js.t(graphQLContext)) =>
+      Js.Promise.t(PaperClip.t),
     "updatePaperClip":
-      (graphQLContext, {. "id": string, "paperClip": PaperClip.t}) => Js.Promise.t(PaperClip.t),
-    "removePaperClip": (graphQLContext, {. "id": string}) => Js.Promise.t(emptyResult)
+      (Js.Nullable.t('root), {. "id": string, "paperClip": PaperClip.t}, Js.t(graphQLContext)) =>
+      Js.Promise.t(PaperClip.t),
+    "removePaperClip":
+      (Js.Nullable.t('root), {. "id": string}, Js.t(graphQLContext)) => Js.Promise.t(emptyResult)
   }
 };
 
@@ -55,20 +60,20 @@ let make = (dataProvider: DataProvider.t) => {
   {
     resolvers,
     queries: {
-      "allPaperClips": (_context, input) => {
+      "allPaperClips": (_root, input, _context) => {
         let opt = Js.Nullable.to_opt(input##filter);
         switch opt {
         | Some(filter) => service.getAll(~size=PaperClip.sizeFromJs(filter##size))
         | None => service.getAll(~size=None)
         }
       },
-      "paperClip": (_context, input) => service.getById(~id=input##id)
+      "paperClip": (_root, input, _context) => service.getById(~id=input##id)
     },
     mutations: {
-      "addPaperClip": (_context, input) => service.add(~paperClip=input##paperClip),
-      "updatePaperClip": (_context, input) =>
+      "addPaperClip": (_root, input, _context) => service.add(~paperClip=input##paperClip),
+      "updatePaperClip": (_root, input, _context) =>
         service.update(~id=input##id, ~paperClip=input##paperClip),
-      "removePaperClip": (_context, input) => service.remove(~id=input##id)
+      "removePaperClip": (_root, input, _context) => service.remove(~id=input##id)
     }
   }
 };

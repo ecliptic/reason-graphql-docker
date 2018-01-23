@@ -37,7 +37,7 @@ function make (dataProvider) {
   return /* record */ [
     /* resolvers */ resolvers,
     /* queries */ {
-      allPaperClips: function (_, input) {
+      allPaperClips: function (_, input, _$1) {
         var opt = input.filter
         if (opt == null) {
           return Curry._1(service[/* getAll */ 0], /* None */ 0)
@@ -48,18 +48,18 @@ function make (dataProvider) {
           )
         }
       },
-      paperClip: function (_, input) {
+      paperClip: function (_, input, _$1) {
         return Curry._1(service[/* getById */ 1], input.id)
       },
     },
     /* mutations */ {
-      addPaperClip: function (_, input) {
+      addPaperClip: function (_, input, _$1) {
         return Curry._1(service[/* add */ 2], input.paperClip)
       },
-      updatePaperClip: function (_, input) {
+      updatePaperClip: function (_, input, _$1) {
         return Curry._2(service[/* update */ 3], input.id, input.paperClip)
       },
-      removePaperClip: function (_, input) {
+      removePaperClip: function (_, input, _$1) {
         return Curry._1(service[/* remove */ 4], input.id)
       },
     },

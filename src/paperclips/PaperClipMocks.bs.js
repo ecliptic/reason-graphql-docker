@@ -45,21 +45,21 @@ function make$1 (
   return /* record */ [
     /* resolvers */ PaperClipHandler.resolvers,
     /* queries */ {
-      allPaperClips: Js_option.getWithDefault(function (_, _$1) {
+      allPaperClips: Js_option.getWithDefault(function (_, _$1, _$2) {
         return Promise.resolve(/* array */ [dummy])
       }, allPaperClips),
-      paperClip: Js_option.getWithDefault(function (_, _$1) {
+      paperClip: Js_option.getWithDefault(function (_, _$1, _$2) {
         return Promise.resolve(dummy)
       }, paperClip),
     },
     /* mutations */ {
-      addPaperClip: Js_option.getWithDefault(function (_, _$1) {
+      addPaperClip: Js_option.getWithDefault(function (_, _$1, _$2) {
         return Promise.resolve(dummy)
       }, addPaperClip),
-      updatePaperClip: Js_option.getWithDefault(function (_, _$1) {
+      updatePaperClip: Js_option.getWithDefault(function (_, _$1, _$2) {
         return Promise.resolve(dummy)
       }, updatePaperClip),
-      removePaperClip: Js_option.getWithDefault(function (_, _$1) {
+      removePaperClip: Js_option.getWithDefault(function (_, _$1, _$2) {
         return Promise.resolve({
           success: /* true */ 1,
         })

@@ -33,17 +33,19 @@ module Service = {
 module Handler = {
   let make =
       (~allPaperClips, ~paperClip, ~addPaperClip, ~updatePaperClip, ~removePaperClip)
-      : PaperClipHandler.t => {
+      : PaperClipHandler.t('root) => {
     resolvers: PaperClipHandler.resolvers,
     queries: {
-      "allPaperClips": allPaperClips |> getWithDefault((_context, _input) => resolve([|dummy|])),
-      "paperClip": paperClip |> getWithDefault((_context, _input) => resolve(dummy))
+      "allPaperClips":
+        allPaperClips |> getWithDefault((_root, _input, _context) => resolve([|dummy|])),
+      "paperClip": paperClip |> getWithDefault((_root, _input, _context) => resolve(dummy))
     },
     mutations: {
-      "addPaperClip": addPaperClip |> getWithDefault((_context, _input) => resolve(dummy)),
-      "updatePaperClip": updatePaperClip |> getWithDefault((_context, _input) => resolve(dummy)),
+      "addPaperClip": addPaperClip |> getWithDefault((_root, _input, _context) => resolve(dummy)),
+      "updatePaperClip":
+        updatePaperClip |> getWithDefault((_root, _input, _context) => resolve(dummy)),
       "removePaperClip":
-        removePaperClip |> getWithDefault((_context, _input) => resolve({"success": true}))
+        removePaperClip |> getWithDefault((_root, _input, _context) => resolve({"success": true}))
     }
   };
 };
