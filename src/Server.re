@@ -4,15 +4,17 @@ open Express.App;
 
 open Js.Promise;
 
-[@bs.module] external cors : 'a => Express.Middleware.t = "";
+[@bs.module] external cors : 'config => Express.Middleware.t = "";
 
 [@bs.module] external morgan : string => Express.Middleware.t = "";
 
-[@bs.module "body-parser"] external json : 'a => Express.Middleware.t = "";
+[@bs.module] external jwt : 'config => Express.Middleware.t = "express-jwt";
 
-let debug = Debug.make("paperclip-api", "Server");
+[@bs.module "body-parser"] external json : 'config => Express.Middleware.t = "json";
 
-let debugExn = Debug.make("paperclip-api", "Server:exn");
+let debug = Debug.make("reason-graphql-docker", "Server");
+
+let debugExn = Debug.make("reason-graphql-docker", "Server:exn");
 
 let graphiqlMiddleware = ApolloServerExpress.createGraphiQLExpressMiddleware("/graphql");
 
@@ -26,7 +28,7 @@ let onListen = (exn) =>
     debugExn(err)
   | None =>
     Js.log(
-      blue("trailmap-api")
+      blue("reason-graphql-docker")
       ++ " is listening on port "
       ++ green(Js.Int.toString(Config.Server.port))
     )
@@ -43,6 +45,8 @@ let start = (~graphRouter) => {
    * General Express middleware
    */
   use(app, cors({"exposedHeaders": Config.Server.corsHeaders}));
+  /* TODO: Re-enable this when the front end is ready */
+  /* use(app, requireLogin); */
   use(app, json({"limit": Config.Server.bodyLimit}));
   useOnPath(app, graphRouter, ~path="/graphql");
   if (Config.Server.isDev) {

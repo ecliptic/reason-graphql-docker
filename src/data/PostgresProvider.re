@@ -10,11 +10,11 @@ let make = () : Js.Promise.t(t) =>
       open Js.Option;
       let connection =
         KnexConfig.Connection.make(
-          ~user=Config.Database.username |> to_opt |> getWithDefault("paperclip"),
-          ~password=Config.Database.password |> to_opt |> getWithDefault("paperclip"),
+          ~user=Config.Database.username |> to_opt |> getWithDefault("paper_clips"),
+          ~password=Config.Database.password |> to_opt |> getWithDefault("paper_clips"),
           ~host=Config.Database.hostname |> to_opt |> getWithDefault("localhost"),
           ~port=Config.Database.port |> to_opt |> getWithDefault("5432"),
-          ~database=Config.Database.name |> to_opt |> getWithDefault("paperclip"),
+          ~database=Config.Database.name |> to_opt |> getWithDefault("paper_clips"),
           ()
         );
       let pool =
@@ -28,7 +28,8 @@ let make = () : Js.Promise.t(t) =>
         KnexConfig.make(~client="pg", ~connection, ~pool, ~acquireConnectionTimeout=2000, ());
       let knex = Knex.make(config);
       /* Verify the connection before proceeding */
-      Knex.raw(knex, "select now()")
+      knex
+      |> Knex.raw("select now()")
       /* Everything's good! Let's resolve with the interface */
       |> Js.Promise.then_(
            (result) => {

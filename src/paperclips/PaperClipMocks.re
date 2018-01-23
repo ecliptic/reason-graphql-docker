@@ -2,13 +2,14 @@ open Js.Option;
 
 open Js.Promise;
 
-let dummy =
-  PaperClip.{
-    id: "test-paper-clip-1",
-    createdAt: Js.Date.makeWithYMD(~year=2018.0, ~month=1.0, ~date=2.0, ()),
-    updatedAt: Js.Date.makeWithYMD(~year=2018.0, ~month=1.0, ~date=2.0, ()),
-    size: Size.Small
-  };
+open Schema;
+
+let dummy: PaperClip.t = {
+  "id": Js.Nullable.return("test-paper-clip-1"),
+  "created_at": Js.Nullable.return(Js.Date.makeWithYMD(~year=2018.0, ~month=1.0, ~date=2.0, ())),
+  "updated_at": Js.Nullable.return(Js.Date.makeWithYMD(~year=2018.0, ~month=1.0, ~date=2.0, ())),
+  "size": "SMALL"
+};
 
 module Service = {
   let make =

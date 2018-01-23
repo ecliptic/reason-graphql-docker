@@ -23,7 +23,8 @@
     "bs-graphql-tools",
     "bs-knex",
     "bs-node-debug",
-    "bs-promise-router"
+    "bs-promise-router",
+    "bs-moment"
   ],
   "reason": {
     "react-jsx": 2

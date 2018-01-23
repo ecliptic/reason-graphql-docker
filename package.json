@@ -8,7 +8,9 @@
   },
   "author": "Brandon Konkle <brandon@ecliptic.io> (http://ecliptic.io)",
   "license": "BSD-2-Clause",
-  "keywords": ["reasonml"],
+  "keywords": [
+    "reasonml"
+  ],
   "scripts": {
     "build": "bsb -make-world",
     "build.clean": "bsb -clean-world",
@@ -18,8 +20,7 @@
     "dev.watch": "chokidar --initial \"src/**/*.js\" -c \"yarn dev\"",
     "lint": "eslint --ext .js,.jsx ./",
     "migrate": "dotenv knex migrate:latest",
-    "postinstall":
-      "rm -rf node_modules/bs-apollo-server-express/node_modules/bs-express",
+    "postinstall": "rm -rf node_modules/bs-apollo-server-express/node_modules/bs-express",
     "precommit": "lint-staged",
     "prepublish": "yarn build",
     "prepush": "yarn test",
@@ -28,10 +29,10 @@
     "test.watch": "cross-env NODE_ENV=test jest --watch"
   },
   "dependencies": {
-    "@glennsl/bs-json": "^1.1.0",
+    "@glennsl/bs-json": "^1.1.2",
     "apollo-server-express": "^1.3.2",
     "body-parser": "^1.18.2",
-    "bs-abstract": "^0.8.2",
+    "bs-abstract": "^0.10.0",
     "bs-apollo-server-express": "^0.3.1",
     "bs-batteries": "^0.0.14",
     "bs-chalk": "^0.2.0",
@@ -39,24 +40,25 @@
     "bs-graphql": "^0.3.1",
     "bs-graphql-scalar": "^0.2.0",
     "bs-graphql-tools": "^0.3.1",
-    "bs-knex": "^0.9.0",
+    "bs-knex": "^0.10.2",
+    "bs-moment": "^0.2.1",
     "bs-node-debug": "^0.2.0",
     "bs-promise-router": "^0.2.0",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "graphql": "^0.12.3",
     "graphql-tag": "^2.6.1",
-    "graphql-tools": "^2.16.0",
+    "graphql-tools": "^2.18.0",
     "morgan": "^1.9.0",
     "parse-database-url": "^0.3.0",
     "pg": "^7.4.1"
   },
   "devDependencies": {
-    "@glennsl/bs-jest": "^0.3.2",
-    "@playlyfe/gql": "^2.4.0",
+    "@glennsl/bs-jest": "^0.3.3",
+    "@playlyfe/gql": "^2.5.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.1.2",
-    "babel-jest": "^22.0.4",
+    "babel-eslint": "^8.2.1",
+    "babel-jest": "^22.1.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-polyfill": "^6.26.0",
@@ -66,7 +68,7 @@
     "chokidar-cli": "^1.2.0",
     "concurrently": "^3.5.1",
     "cross-env": "^5.1.3",
-    "eslint": "^4.15.0",
+    "eslint": "^4.16.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-config-standard-react": "^5.0.0",
     "eslint-plugin-babel": "^4.1.2",
@@ -77,9 +79,9 @@
     "eslint-plugin-standard": "^3.0.1",
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^22.0.4",
+    "jest": "^22.1.4",
     "jest-transform-graphql": "^2.1.0",
-    "lint-staged": "^6.0.0",
+    "lint-staged": "^6.0.1",
     "prettier-eslint-cli": "^4.7.0"
   },
   "jest": {
@@ -88,15 +90,25 @@
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom"
     ],
-    "testMatch": ["**/?(*)(Spec|Test).js"],
-    "testPathIgnorePatterns": ["/node_modules/"],
+    "testMatch": [
+      "**/?(*)(Spec|Test).js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
     "transform": {
       ".(js|jsx)": "babel-jest"
     },
     "testEnvironment": "node"
   },
   "lint-staged": {
-    "src/**/*.js": ["prettier-eslint --write", "git add"],
-    "src/**/*.re": ["refmt --in-place", "git add"]
+    "src/**/*.js": [
+      "prettier-eslint --write",
+      "git add"
+    ],
+    "src/**/*.re": [
+      "refmt --in-place",
+      "git add"
+    ]
   }
 }

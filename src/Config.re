@@ -1,4 +1,4 @@
-open TextUtils;
+open Utils;
 
 type graphQLContext;
 
@@ -11,7 +11,7 @@ let getEnvVar = (key, fallback) =>
   Js.Option.getWithDefault(fallback, Js.Dict.get(Node.Process.process##env, key));
 
 module Server = {
-  let port = parseInt(getEnvVar("PORT", "4000"), 10);
+  let port = parseInt(getEnvVar("PORT", "4000"));
   let bodyLimit = "100kb";
   let corsHeaders = [|"Link"|];
   let isDev = getEnvVar("NODE_ENV", "development") === "development";
@@ -29,7 +29,7 @@ module Database = {
   let password = config##password;
   let hostname = config##host;
   let port = config##port;
-  let poolMin = parseInt(getEnvVar("DATABASE_POOL_MIN", "0"), 10);
-  let poolMax = parseInt(getEnvVar("DATABASE_POOL_MAX", "10"), 10);
-  let poolIdle = parseInt(getEnvVar("DATABASE_POOL_IDLE", "10000"), 10);
+  let poolMin = parseInt(getEnvVar("DATABASE_POOL_MIN", "0"));
+  let poolMax = parseInt(getEnvVar("DATABASE_POOL_MAX", "10"));
+  let poolIdle = parseInt(getEnvVar("DATABASE_POOL_IDLE", "10000"));
 };
