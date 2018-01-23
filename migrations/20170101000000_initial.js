@@ -3,6 +3,8 @@ exports.up = function (knex, Promise) {
     // Kick off a promise chain
     Promise.resolve()
 
+      .then(() => knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'))
+
       // PaperClip
       .then(() =>
         knex.schema.createTable('paper_clips', function (table) {

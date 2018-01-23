@@ -26,8 +26,6 @@ Set up a local database:
 
     $ createdb reason_graphql_docker -O reason_graphql_docker
 
-    $ psql -U postgres -d reason_graphql_docker -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-
 If you get an error about the "postgres" role not existing, you'll want to create it as a superuser:
 
     $ createuser -s postgres
